@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Android-Update-Server:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="android-update-server-1.0.war">
+      <element id="artifact" artifact-name="Android-Update-Server:war exploded" />
+    </root>
+  </artifact>
+</component>
