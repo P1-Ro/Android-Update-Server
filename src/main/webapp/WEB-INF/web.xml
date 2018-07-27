@@ -12,12 +12,12 @@
     </description>
 
     <servlet>
-        <servlet-name>TestServler</servlet-name>
+        <servlet-name>TestServlet</servlet-name>
         <servlet-class>sk.rors.androidUpdateServer.servlet.TestServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>TestServler</servlet-name>
-        <url-pattern>/test</url-pattern>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
