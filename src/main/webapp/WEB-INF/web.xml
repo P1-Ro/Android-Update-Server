@@ -11,13 +11,4 @@
         based on the recommendations of the Application Developer's Guide.
     </description>
 
-    <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>sk.rors.androidUpdateServer.servlet.TestServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 </web-app>
