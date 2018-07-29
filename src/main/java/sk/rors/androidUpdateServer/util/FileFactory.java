@@ -1,8 +1,15 @@
 package sk.rors.androidUpdateServer.util;
 
+import org.apache.commons.io.FileUtils;
+import sk.rors.androidUpdateServer.model.Apk;
+import sk.rors.androidUpdateServer.persistence.Database;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.security.cert.CertificateException;
+import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * Factory for retrieving uploaded apk files
@@ -30,7 +37,17 @@ public class FileFactory {
      * @return latest valid apk
      */
     public File getLatestApk(String packageName) {
-        throw new RuntimeException("Not implemented yet");
+        File file = null;
+        try {
+            Apk apk = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
+            if (apk.getApk() != null) {
+                file = new File(UUID.randomUUID().toString());
+                FileUtils.writeByteArrayToFile(file, apk.getApk());
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
     /**
