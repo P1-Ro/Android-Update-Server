@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run app" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.10" ALTERNATIVE_JRE_ENABLED="false">
+    <option name="OPEN_IN_BROWSER" value="false" />
     <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
     <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
     <deployment>
@@ -55,12 +56,12 @@
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
-        <option name="NAME" value="DATABASE_URL" />
+        <option name="NAME" value="DB_PASSWORD" />
         <option name="VALUE" value="aus" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
-        <option name="NAME" value="DB_URL" />
+        <option name="NAME" value="DATABASE_URL" />
         <option name="VALUE" value="jdbc:postgresql://localhost:5432/aus?max_allowed_packet=268435456" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
