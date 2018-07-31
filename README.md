@@ -2,8 +2,8 @@
 
 Easy to setup server that manages updates for your Android app which cannot be discributed via GooglePlay or you just simply dont want to use it.
 
-#Installation
+# Installation
 Coming soon...
 
-#Usage 
+# Usage 
 Coming soon...
