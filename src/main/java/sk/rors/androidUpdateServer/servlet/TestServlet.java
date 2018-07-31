@@ -16,17 +16,17 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-//        File v15 = new File(this.getClass().getResource("/dummy_v15.apk").getFile());
-//
-//        try{
-//            FileFactory.getInstance().saveApk(v15);
-//        } catch (CertificateException e) {
-//            e.printStackTrace();
-//        }
-//        File file = FileFactory.getInstance().getLatestApk("com.p1ro.playonkodi");
-//        if(file == null){
-//            throw new RuntimeException("File not saved");
-//        }
+        File v15 = new File(this.getClass().getResource("/dummy_v15.apk").getFile());
+
+        try{
+            FileFactory.getInstance().saveApk(v15);
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }
+        File file = FileFactory.getInstance().getLatestApk("com.p1ro.playonkodi");
+        if(file == null){
+            throw new RuntimeException("File not saved");
+        }
 
         FileFactory.getInstance().sendNotifications("com.p1ro.playonkodi", "1");
 
