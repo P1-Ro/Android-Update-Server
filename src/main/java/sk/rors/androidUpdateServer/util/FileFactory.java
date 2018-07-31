@@ -1,10 +1,18 @@
 package sk.rors.androidUpdateServer.util;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import io.sentry.Sentry;
 import org.apache.commons.io.FileUtils;
 import sk.rors.androidUpdateServer.model.Apk;
 import sk.rors.androidUpdateServer.persistence.Database;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.security.cert.CertificateException;
@@ -17,9 +25,21 @@ import java.util.UUID;
 public class FileFactory {
 
     private static FileFactory instance;
+    private FirebaseApp app;
 
     private FileFactory() {
+        try {
+            FileInputStream serviceAccount = new FileInputStream("D:/Desktop/credentials.json");
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://androidupdateserver.firebaseio.com")
+                    .build();
 
+            app = FirebaseApp.initializeApp(options, "AndroidUpdateServer");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Sentry.capture(e);
+        }
     }
 
     public static FileFactory getInstance() {
@@ -59,6 +79,24 @@ public class FileFactory {
      */
     public void saveApk(File file) throws FileAlreadyExistsException, CertificateException {
         throw new RuntimeException("Not implemented yet");
+
+        //sendNotifications(packageName, "1");
+    }
+
+    public void sendNotifications(String packageName, String versionName) {
+
+        // See documentation on defining a message payload.
+        Message message = Message.builder()
+                .putData("version", versionName)
+                .setTopic(packageName)
+                .build();
+
+        try {
+            FirebaseMessaging.getInstance(app).send(message);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+            Sentry.capture(e);
+        }
     }
 
 }
