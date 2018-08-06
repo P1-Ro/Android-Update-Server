@@ -68,4 +68,9 @@ public final class ApkUtil {
         return apkMeta.getPackageName();
     }
 
+    public static String getVersionName(File file) throws IOException{
+        ApkFile apkFile = new ApkFile(file);
+        ApkMeta apkMeta = apkFile.getApkMeta();
+        return apkMeta.getVersionName();
+    }
 }

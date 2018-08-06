@@ -52,17 +52,17 @@
       </SHUTDOWN>
       <EnvironmentVariables>
         <option name="NAME" value="DB_USERNAME" />
-        <option name="VALUE" value="aus" />
+        <option name="VALUE" value="test" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="DB_PASSWORD" />
-        <option name="VALUE" value="aus" />
+        <option name="VALUE" value="test" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
       <EnvironmentVariables>
         <option name="NAME" value="DATABASE_URL" />
-        <option name="VALUE" value="jdbc:postgresql://localhost:5432/aus?max_allowed_packet=268435456" />
+        <option name="VALUE" value="jdbc:postgresql://localhost:5433/test?max_allowed_packet=268435456" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>

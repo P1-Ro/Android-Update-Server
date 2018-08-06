@@ -18,7 +18,7 @@ public class Apk {
     @DatabaseField
     private String signature;
     @DatabaseField
-    private Integer versionCode;
+    private long versionCode;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] apk;
 
@@ -33,11 +33,11 @@ public class Apk {
         this.versionName = versionName;
     }
 
-    public Integer getVersionCode() {
+    public long getVersionCode() {
         return versionCode;
     }
 
-    public void setVersionCode(Integer versionCode) {
+    public void setVersionCode(long versionCode) {
         this.versionCode = versionCode;
     }
 
