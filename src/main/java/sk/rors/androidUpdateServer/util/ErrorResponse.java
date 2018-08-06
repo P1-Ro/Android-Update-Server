@@ -6,8 +6,6 @@ import io.sentry.Sentry;
 
 public class ErrorResponse {
 
-    private boolean sentryInitialized = false;
-
     private String msg;
     private int code;
 
@@ -33,15 +31,8 @@ public class ErrorResponse {
     }
 
     public String serialize() throws JsonProcessingException {
-        String sentryDsn = System.getenv().get("SENTRY_DSN");
-        if(sentryDsn != null && !sentryInitialized){
-            Sentry.init(sentryDsn);
-            sentryInitialized = true;
-        }
 
-        if(sentryInitialized){
-            Sentry.capture(msg);
-        }
+        ErrorHandler.handle(msg);
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(this);

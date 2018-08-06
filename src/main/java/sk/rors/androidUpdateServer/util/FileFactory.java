@@ -7,7 +7,6 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import io.sentry.Sentry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import sk.rors.androidUpdateServer.model.Apk;
@@ -42,8 +41,7 @@ public class FileFactory {
                 app = FirebaseApp.initializeApp(options, "AndroidUpdateServer");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            Sentry.capture(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -70,8 +68,7 @@ public class FileFactory {
                 FileUtils.writeByteArrayToFile(file, apk.getApk());
             }
         } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            Sentry.capture(e);
+            ErrorHandler.handle(e);
         }
         return file;
     }
@@ -108,8 +105,7 @@ public class FileFactory {
             sendNotifications(packageName, newFile.getVersionName());
 
         } catch (IOException | SQLException e) {
-            Sentry.capture(e);
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -124,8 +120,7 @@ public class FileFactory {
             try {
                 FirebaseMessaging.getInstance(app).send(message);
             } catch (FirebaseMessagingException e) {
-                e.printStackTrace();
-                Sentry.capture(e);
+                ErrorHandler.handle(e);
             }
         }
     }
