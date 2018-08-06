@@ -23,8 +23,8 @@ public class TestServlet extends HttpServlet {
 
         try {
             FileFactory.getInstance().saveApk(v16);
-        } catch (Exception e1){
-            new CertificateException("asd");
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
         try{
@@ -37,8 +37,6 @@ public class TestServlet extends HttpServlet {
         if(file == null){
             throw new RuntimeException("File not saved");
         }
-
-        FileFactory.getInstance().sendNotifications("com.p1ro.playonkodi", "1");
 
         resp.getWriter().append("Hello, World!");
     }
