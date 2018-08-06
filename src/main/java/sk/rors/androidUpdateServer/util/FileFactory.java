@@ -12,11 +12,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import sk.rors.androidUpdateServer.model.Apk;
 import sk.rors.androidUpdateServer.persistence.Database;
+import sk.rors.androidUpdateServer.util.exception.VersionException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.security.cert.CertificateException;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -24,25 +23,29 @@ import java.util.UUID;
 /**
  * Factory for retrieving uploaded apk files
  */
+@SuppressWarnings("unchecked")
 public class FileFactory {
 
     private static FileFactory instance;
-    private FirebaseApp app;
+    private FirebaseApp app = null;
 
-//    private FileFactory() {
-//        try {
-//            FileInputStream serviceAccount = new FileInputStream("D:/Desktop/credentials.json");
-//            FirebaseOptions options = new FirebaseOptions.Builder()
-//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                    .setDatabaseUrl("https://androidupdateserver.firebaseio.com")
-//                    .build();
-//
-//            app = FirebaseApp.initializeApp(options, "AndroidUpdateServer");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Sentry.capture(e);
-//        }
-//    }
+    private FileFactory() {
+        try {
+            String credentials = System.getenv().get("FIREBASE_CREDENTIALS");
+            if (credentials != null && credentials.length() != 0) {
+                InputStream serviceAccount = IOUtils.toInputStream(credentials, Charset.forName("UTF-8"));
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setDatabaseUrl("https://androidupdateserver.firebaseio.com")
+                        .build();
+
+                app = FirebaseApp.initializeApp(options, "AndroidUpdateServer");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Sentry.capture(e);
+        }
+    }
 
     public static FileFactory getInstance() {
         if (instance == null) {
@@ -68,6 +71,7 @@ public class FileFactory {
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
+            Sentry.capture(e);
         }
         return file;
     }
@@ -76,20 +80,20 @@ public class FileFactory {
      * Method for saving given apk file onto server.
      *
      * @param file apk to be saved
-     * @throws FileAlreadyExistsException if apk with specified version code already exists on server
-     * @throws CertificateException       if application with same packageName present on server is signed with different certificate
+     * @throws VersionException     if apk with specified version code already exists on server
+     * @throws CertificateException if application with same packageName present on server is signed with different certificate
      */
-    public void saveApk(File file) throws FileAlreadyExistsException, CertificateException {
-        //throw new RuntimeException("Not implemented yet");
-        //sendNotifications(packageName, "1");
+    public void saveApk(File file) throws VersionException, CertificateException {
         try {
+            String packageName = ApkUtil.getPackageName(file);
+
             Apk newFile = new Apk();
-            newFile.setPackageName(ApkUtil.getPackageName(file));
+            newFile.setPackageName(packageName);
             newFile.setVersionCode(ApkUtil.getVersion(file));
             newFile.setSignature(ApkUtil.getSignature(file));
             newFile.setVersionName(ApkUtil.getVersionName(file));
             newFile.setApk(Files.toByteArray(file));
-            Apk dbFile = (Apk) Database.getInstance().getDao(Apk.class).queryForId(newFile.getPackageName());
+            Apk dbFile = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
 
             if (dbFile == null) {
                 Database.getInstance().getDao(Apk.class).create(newFile);
@@ -97,27 +101,32 @@ public class FileFactory {
                 if (newFile.getVersionCode() > dbFile.getVersionCode()) {
                     Database.getInstance().getDao(Apk.class).update(newFile);
                 } else {
-                    throw new RuntimeException("Version code is lower");
+                    throw new VersionException("Version code is lower");
                 }
             }
-        } catch (Exception e1) {
-            new SQLException("bla");
+
+            sendNotifications(packageName, newFile.getVersionName());
+
+        } catch (IOException | SQLException e) {
+            Sentry.capture(e);
+            e.printStackTrace();
         }
     }
 
-    public void sendNotifications(String packageName, String versionName) {
+    private void sendNotifications(String packageName, String versionName) {
+        if (app != null) {
 
-        // See documentation on defining a message payload.
-        Message message = Message.builder()
-                .putData("version", versionName)
-                .setTopic(packageName)
-                .build();
+            Message message = Message.builder()
+                    .putData("version", versionName)
+                    .setTopic(packageName)
+                    .build();
 
-        try {
-            FirebaseMessaging.getInstance(app).send(message);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-            Sentry.capture(e);
+            try {
+                FirebaseMessaging.getInstance(app).send(message);
+            } catch (FirebaseMessagingException e) {
+                e.printStackTrace();
+                Sentry.capture(e);
+            }
         }
     }
 
