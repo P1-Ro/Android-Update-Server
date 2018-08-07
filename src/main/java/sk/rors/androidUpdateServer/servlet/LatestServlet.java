@@ -16,7 +16,7 @@ public class LatestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String packageName = req.getParameter("packagename");
+        String packageName = req.getParameter("packageName");
         try {
             Apk apk = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
             if (apk != null) {
