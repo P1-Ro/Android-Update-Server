@@ -36,11 +36,7 @@ public class Database {
         return instance;
     }
 
-    public ConnectionSource getConnection() {
-        return connection;
-    }
-
-    public Dao getDao(Class<?> clazz) throws SQLException {
+    public  <D extends Dao<T, String>, T> D getDao(Class<T> clazz) throws SQLException {
         return DaoManager.createDao(connection, clazz);
     }
 

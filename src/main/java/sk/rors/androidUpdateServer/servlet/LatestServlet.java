@@ -18,7 +18,7 @@ public class LatestServlet extends HttpServlet {
 
         String packageName = req.getParameter("packageName");
         try {
-            Apk apk = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
+            Apk apk = Database.getInstance().getDao(Apk.class).queryForId(packageName);
             if (apk != null) {
 
                 if (req.getRequestURI().endsWith("/download")) {

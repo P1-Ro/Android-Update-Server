@@ -22,7 +22,6 @@ import java.util.UUID;
 /**
  * Factory for retrieving uploaded apk files
  */
-@SuppressWarnings("unchecked")
 public class FileFactory {
 
     private static FileFactory instance;
@@ -62,7 +61,7 @@ public class FileFactory {
     public File getLatestApk(String packageName) {
         File file = null;
         try {
-            Apk apk = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
+            Apk apk = Database.getInstance().getDao(Apk.class).queryForId(packageName);
             if (apk != null && apk.getApk() != null) {
                 file = new File(UUID.randomUUID().toString());
                 FileUtils.writeByteArrayToFile(file, apk.getApk());
@@ -90,7 +89,7 @@ public class FileFactory {
             newFile.setSignature(ApkUtil.getSignature(file));
             newFile.setVersionName(ApkUtil.getVersionName(file));
             newFile.setApk(Files.toByteArray(file));
-            Apk dbFile = (Apk) Database.getInstance().getDao(Apk.class).queryForId(packageName);
+            Apk dbFile = Database.getInstance().getDao(Apk.class).queryForId(packageName);
 
             if (dbFile == null) {
                 Database.getInstance().getDao(Apk.class).create(newFile);
