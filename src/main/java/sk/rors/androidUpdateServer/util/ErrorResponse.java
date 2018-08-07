@@ -1,40 +1,17 @@
 package sk.rors.androidUpdateServer.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.sentry.Sentry;
 
-public class ErrorResponse {
-
-    private String msg;
-    private int code;
+public class ErrorResponse extends Response {
 
     public ErrorResponse(String msg, int code) {
-        this.msg = msg;
-        this.code = code;
+        super(msg, code);
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
+    @Override
     public String serialize() throws JsonProcessingException {
 
-        ErrorHandler.handle(msg);
-
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(this);
+        ErrorHandler.handle(this.getMsg());
+        return super.serialize();
     }
 }
