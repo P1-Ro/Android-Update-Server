@@ -11,7 +11,7 @@ public class ErrorResponse extends Response {
     @Override
     public String serialize() throws JsonProcessingException {
 
-        ErrorHandler.handle(this.getMsg());
+        ErrorHandler.handle(this.msg);
         return super.serialize();
     }
 }
