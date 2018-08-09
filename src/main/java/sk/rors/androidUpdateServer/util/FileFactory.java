@@ -15,6 +15,7 @@ import sk.rors.androidUpdateServer.util.exception.VersionException;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -95,7 +96,11 @@ public class FileFactory {
                 Database.getInstance().getDao(Apk.class).create(newFile);
             } else {
                 if (newFile.getVersionCode() > dbFile.getVersionCode()) {
-                    Database.getInstance().getDao(Apk.class).update(newFile);
+                    if(newFile.getSignature().equals(dbFile.getSignature())) {
+                        Database.getInstance().getDao(Apk.class).update(newFile);
+                    } else {
+                        throw new CertificateException("Certificates do not match");
+                    }
                 } else {
                     throw new VersionException("Version code is lower");
                 }

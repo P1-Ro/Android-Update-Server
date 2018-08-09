@@ -19,17 +19,17 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        File v16 = new File(this.getClass().getResource("/dummy_v16.apk").getFile());
+        File v15 = new File(this.getClass().getResource("/dummy_v16_different_cert.apk").getFile());
 
         try {
-            FileFactory.getInstance().saveApk(v16);
+            FileFactory.getInstance().saveApk(v15);
         } catch (Exception e){
             e.printStackTrace();
         }
 
         try{
             //FileFactory.getInstance().saveApk(v15);
-            ApkUtil.getVersion(v16);
+            ApkUtil.getVersion(v15);
         } catch (IOException e) {
             e.printStackTrace();
         }
