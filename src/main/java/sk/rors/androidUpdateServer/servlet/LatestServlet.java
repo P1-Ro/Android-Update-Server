@@ -23,7 +23,7 @@ public class LatestServlet extends HttpServlet {
             Apk apk = Database.getInstance().getDao(Apk.class).queryForId(packageName);
             if (apk != null) {
 
-                if (req.getRequestURI().endsWith("/download")) {
+                if (req.getRequestURI().contains("/download")) {
                     resp.setHeader("content-disposition", "attachment; filename=\"" + packageName + ".apk\"");
                     resp.getOutputStream().write(apk.getApk());
                 } else {
