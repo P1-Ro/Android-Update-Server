@@ -1,6 +1,7 @@
 package sk.rors.androidUpdateServer.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class ErrorResponse extends Response {
 
@@ -9,9 +10,8 @@ public class ErrorResponse extends Response {
     }
 
     @Override
-    public String serialize() throws JsonProcessingException {
-
+    public void serialize(HttpServletResponse resp) throws IOException {
+        super.serialize(resp);
         ErrorHandler.handle(this.msg);
-        return super.serialize();
     }
 }

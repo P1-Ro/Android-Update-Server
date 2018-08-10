@@ -1,8 +1,10 @@
 package sk.rors.androidUpdateServer.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class Response {
 
@@ -14,10 +16,12 @@ public class Response {
         this.code = code;
     }
 
-    public String serialize() throws JsonProcessingException {
+    public void serialize(HttpServletResponse resp) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        return mapper.writeValueAsString(this);
+        String result = mapper.writeValueAsString(this);
+        resp.getWriter().append(result);
+        resp.setStatus(code);
     }
 }

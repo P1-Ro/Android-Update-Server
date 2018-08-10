@@ -30,13 +30,11 @@ public class LatestServlet extends HttpServlet {
                     resp.getWriter().append(apk.serialize());
                 }
             } else {
-                resp.getWriter().append(new ErrorResponse("No apk with such packageName", 404).serialize());
-                resp.setStatus(404);
+                new ErrorResponse("No apk with such packageName", 404).serialize(resp);
             }
 
         } catch (Exception e) {
-            resp.getWriter().append(new ErrorResponse(e.toString(), 500).serialize());
-            resp.setStatus(500);
+            new ErrorResponse(e.toString(), 500).serialize(resp);
         }
     }
 

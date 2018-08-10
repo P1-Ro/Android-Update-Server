@@ -29,11 +29,11 @@ public class UploadServlet extends HttpServlet {
             File result = new File(UUID.randomUUID().toString());
             FileUtils.copyInputStreamToFile(file.getInputStream(), result);
             FileFactory.getInstance().saveApk(result);
-            resp.getWriter().write(new Response("Success", 200).serialize());
+            new Response("Success", 200).serialize(resp);
         } catch (CertificateException e) {
-            resp.getWriter().write(new ErrorResponse(e.getMessage(), -1).serialize());
+            new ErrorResponse(e.getMessage(), -1).serialize(resp);
         } catch (VersionException e) {
-            resp.getWriter().write(new ErrorResponse(e.getMessage(), -2).serialize());
+            new ErrorResponse(e.getMessage(), -2).serialize(resp);
         }
     }
 }
