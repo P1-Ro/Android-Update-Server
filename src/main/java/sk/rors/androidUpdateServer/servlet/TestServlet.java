@@ -1,7 +1,5 @@
 package sk.rors.androidUpdateServer.servlet;
 
-import sk.rors.androidUpdateServer.model.Apk;
-import sk.rors.androidUpdateServer.persistence.Database;
 import sk.rors.androidUpdateServer.util.ApkUtil;
 import sk.rors.androidUpdateServer.util.FileFactory;
 
@@ -11,9 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.security.cert.CertificateException;
 
-@WebServlet( name = "TestServlet", value = "")
+@WebServlet( name = "TestServlet", value = "/test")
 public class TestServlet extends HttpServlet {
 
     @Override
