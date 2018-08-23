@@ -162,5 +162,9 @@
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.22.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.22.Final" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="Chart" level="application" />
+    <orderEntry type="library" name="jquery.dataTables" level="application" />
   </component>
 </module>

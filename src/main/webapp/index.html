@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Update Server - Dashboard</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="css/local.css"/>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css"/>
+    <link id="gridcss" rel="stylesheet" type="text/css"
+          href="http://www.shieldui.com/shared/components/latest/css/dark-bootstrap/all.min.css"/>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Android Update Server</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul id="active" class="nav navbar-nav side-nav">
+                <li class="selected"><a href="index.html"><i class="fas fa-bullseye"></i> Overview</a></li>
+                <li><a href="index.html"><i class="fas fa-cloud-upload-alt"></i> Info</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right navbar-user">
+                   <li>
+                    <form class="navbar-search">
+                        <button class="btn btn-primary" onclick="upload(event)">Upload</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Dashboard
+                    <small>Statistics and more</small>
+                </h1>
+                <div class="well">
+                    <button data-dismiss="alert" class="close" type="button">&times;</button>
+                    Welcome to the admin dashboard! Feel free to review all pages and modify the layout to your needs.
+                    <br/>
+                    This theme uses the <a href="https://www.shieldui.com">ShieldUI</a> JavaScript library for the
+                    additional data visualization and presentation functionality illustrated here.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Sources One month tracking
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <table id="data-table">
+                            <thead>
+                            <tr>
+                                <th>Column 1</th>
+                                <th>Column 2</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Row 1 Data 1</td>
+                                <td>Row 1 Data 2</td>
+                            </tr>
+                            <tr>
+                                <td>Row 2 Data 1</td>
+                                <td>Row 2 Data 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Logins per week</h3>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <header>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#stats">Users</a>
+                        </li>
+                    </ul>
+                </header>
+                <div class="body tab-content">
+                    <div class="tab-pane clearfix active" id="stats">
+                        <h5 class="tab-header"><i class="fa fa-calendar-o fa-2x"></i> Last logged-in users</h5>
+                        <ul class="news-list">
+                            <li>
+                                <i class="fa fa-user fa-4x pull-left"></i>
+                                <div class="news-item-info">
+                                    <div class="name"><a href="#">Ivan Gorge</a></div>
+                                    <div class="position">Software Engineer</div>
+                                    <div class="time">Last logged-in: Mar 12, 11:11</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-user fa-4x pull-left"></i>
+                                <div class="news-item-info">
+                                    <div class="name"><a href="#">Roman Novak</a></div>
+                                    <div class="position">Product Designer</div>
+                                    <div class="time">Last logged-in: Mar 12, 19:02</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-user fa-4x pull-left"></i>
+                                <div class="news-item-info">
+                                    <div class="name"><a href="#">Teras Uotul</a></div>
+                                    <div class="position">Chief Officer</div>
+                                    <div class="time">Last logged-in: Jun 16, 2:34</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-user fa-4x pull-left"></i>
+                                <div class="news-item-info">
+                                    <div class="name"><a href="#">Deral Ferad</a></div>
+                                    <div class="position">Financial Assistant</div>
+                                    <div class="time">Last logged-in: Jun 18, 4:20</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-user fa-4x pull-left"></i>
+                                <div class="news-item-info">
+                                    <div class="name"><a href="#">Konrad Polerd</a></div>
+                                    <div class="position">Sales Manager</div>
+                                    <div class="time">Last logged-in: Jun 18, 5:13</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<script type="text/javascript">
+
+    function upload(evt){
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        alert("Upload");
+    }
+
+    jQuery(function ($) {
+        let visits = [123, 323, 443, 32],
+            traffic = [
+                {
+                    Source: "Direct", Amount: 323, Change: 53, Percent: 23, Target: 600
+                },
+                {
+                    Source: "Refer", Amount: 345, Change: 34, Percent: 45, Target: 567
+                },
+                {
+                    Source: "Social", Amount: 567, Change: 67, Percent: 23, Target: 456
+                },
+                {
+                    Source: "Search", Amount: 234, Change: 23, Percent: 56, Target: 890
+                },
+                {
+                    Source: "Internal", Amount: 111, Change: 78, Percent: 12, Target: 345
+                }];
+
+        const config = {
+            data: {
+                datasets: [{
+                    data: visits,
+                    backgroundColor: [
+                        "red",
+                        "orange",
+                        "yellow",
+                        "green",
+                    ],
+                    label: 'Dataset 1'
+                }],
+                labels: ["v1", "v2", "v3", "v4"],
+            },
+            type: "pie",
+            options: {
+                responsive: true
+            }
+        };
+
+        let ctx = $("#chart1")[0].getContext("2d");
+        new Chart(ctx, config);
+
+        $("#data-table").DataTable({
+            searching: false,
+            ordering:  true,
+            lengthChange: false,
+            paging: false,
+            data: [
+                ["test", "v15"],
+                ["test2", "v1"]
+            ]
+        });
+    });
+</script>
+</body>
+</html>
