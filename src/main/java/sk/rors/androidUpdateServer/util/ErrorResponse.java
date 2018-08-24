@@ -12,6 +12,7 @@ public class ErrorResponse extends Response {
     @Override
     public void serialize(HttpServletResponse resp) throws IOException {
         super.serialize(resp);
+        resp.setStatus(500);
         ErrorHandler.handle(this.msg);
     }
 }

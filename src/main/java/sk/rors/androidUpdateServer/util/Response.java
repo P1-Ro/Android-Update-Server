@@ -21,7 +21,7 @@ public class Response {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         String result = mapper.writeValueAsString(this);
-        resp.getWriter().append(result);
-        resp.setStatus(code);
+        resp.getWriter().write(result);
+        resp.setStatus(200);
     }
 }
