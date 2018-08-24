@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable(tableName = "latest_apk")
-public class Apk {
+public class Apk  extends Model{
 
     @DatabaseField(id = true)
     private String packageName;
@@ -65,11 +65,6 @@ public class Apk {
 
     public void setSignature(String signature) {
         this.signature = signature;
-    }
-
-    public String serialize() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(this);
     }
 
 
