@@ -41,7 +41,7 @@
             <ul class="nav navbar-nav navbar-right navbar-user">
                    <li>
                     <form class="navbar-search">
-                        <button class="btn btn-primary" onclick="upload(event)">Upload</button>
+                        <button class="btn btn-primary" onclick="initUpload(event)">Upload</button>
                     </form>
                 </li>
             </ul>
@@ -67,25 +67,28 @@
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Sources One month tracking
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> List of all available apps
                         </h3>
                     </div>
                     <div class="panel-body">
-                        <table id="data-table">
+                        <table id="data-table" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Column 1</th>
-                                <th>Column 2</th>
+                                <th>Package name</th>
+                                <th>Version name</th>
+                                <th>Version code</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Row 1 Data 1</td>
-                                <td>Row 1 Data 2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td>Row 2 Data 1</td>
-                                <td>Row 2 Data 2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             </tbody>
                         </table>
@@ -163,15 +166,41 @@
         </div>
     </div>
 </div>
-<!-- /#wrapper -->
+
+<input type="file" id="file-upload" class="hidden" onchange="upload(event)">
 
 <script type="text/javascript">
 
-    function upload(evt){
+    const url = window.location.origin;
+
+    function initUpload(evt){
         evt.stopPropagation();
         evt.preventDefault();
 
-        alert("Upload");
+        $("#file-upload").click();
+    }
+
+    function upload(evt){
+        let apk = evt.target.files[0];
+        if(apk != null){
+
+            let formData = new FormData();
+            formData.set("file", apk);
+
+            $.ajax({
+                method: "POST",
+                contentType: false,
+                processData: false,
+                cache: false,
+                url:url + "/upload",
+                data: formData
+            }).done(() => {
+                alert("done");
+                evt.target.value = "";
+            }).fail((result) => {
+                alert(result.responseText);
+            })
+        }
     }
 
     jQuery(function ($) {
@@ -216,16 +245,26 @@
         let ctx = $("#chart1")[0].getContext("2d");
         new Chart(ctx, config);
 
-        $("#data-table").DataTable({
-            searching: false,
-            ordering:  true,
-            lengthChange: false,
-            paging: false,
-            data: [
-                ["test", "v15"],
-                ["test2", "v1"]
-            ]
+        $.getJSON(url + "/info", function (data) {
+            let finalData =[];
+            for(let app of data.apps){
+                let tmp = [];
+                tmp.push(app.packageName);
+                tmp.push(app.versionName);
+                tmp.push(app.versionCode);
+                finalData.push(tmp);
+            }
+
+
+            $("#data-table").DataTable({
+                searching: false,
+                ordering:  true,
+                lengthChange: false,
+                data: finalData
+            });
         });
+
+
     });
 </script>
 </body>
