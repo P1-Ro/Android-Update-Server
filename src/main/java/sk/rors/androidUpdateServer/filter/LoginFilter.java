@@ -24,6 +24,12 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
+        String url = req.getRequestURL().toString();
+        if(url.startsWith("http://") && !isLocal(req)){
+            resp.sendRedirect(url.replace("http://", "https://"));
+            return;
+        }
+
         if (noAuthNeeded(req, resp) || hasAccess(req)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
@@ -82,7 +88,10 @@ public class LoginFilter implements Filter {
     private boolean authWithApiKey(HttpServletRequest req) {
         String header = req.getHeader("apiKey");
         String apiKey = System.getenv().get("apiKey");
-        return (apiKey != null && apiKey.equals(header));
-//                || (req.getRemoteAddr().equals("127.0.0.1") || req.getRemoteAddr().equals("0:0:0:0:0:0:0:1"));
+        return (apiKey != null && apiKey.equals(header))|| isLocal(req);
+    }
+
+    private boolean isLocal(HttpServletRequest req){
+        return (req.getRemoteAddr().equals("127.0.0.1") || req.getRemoteAddr().equals("0:0:0:0:0:0:0:1"));
     }
 }
