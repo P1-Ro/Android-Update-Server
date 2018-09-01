@@ -23,7 +23,7 @@ public class Database {
         String URL = System.getenv().get("DATABASE_URL");
 
         try {
-            connection = new JdbcConnectionSource(URL, USERNAME, PASSWORD);
+            connection = new JdbcConnectionSource("jdbc:" + URL, USERNAME, PASSWORD);
             createTables();
         } catch (Exception e) {
             ErrorHandler.handle(e);
