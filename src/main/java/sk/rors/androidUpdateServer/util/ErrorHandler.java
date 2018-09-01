@@ -3,7 +3,12 @@ package sk.rors.androidUpdateServer.util;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public final class ErrorHandler {
+
+    private static final Logger logger = Logger.getGlobal();
 
     static {
         String sentryDsn = System.getenv().get("SENTRY_DSN");
@@ -29,7 +34,7 @@ public final class ErrorHandler {
             if (msg != null) {
                 Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage(msg).build());
             }
-
+            logger.log(Level.SEVERE, msg, t);
             t.printStackTrace();
             Sentry.capture(t);
         } else {
