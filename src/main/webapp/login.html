@@ -13,6 +13,9 @@
             <div class="panel">
                 <h2>Admin Login</h2>
                 <p>Please enter your username and password</p>
+                <div id="loginError" class="hidden alert alert-danger" role="alert">
+                    <strong>Oh snap!</strong> Username or password is not correct.
+                </div>
             </div>
             <form id="Login">
                 <div class="form-group">
@@ -37,14 +40,14 @@
         let auth = btoa(username + ":" + passwd);
 
         $.post({
-            url: "/overview.html",
+            url: "overview.html",
             headers: {
                 "Authorization": "Basic " + auth
             }
         }).done(() => {
             window.location.href="/overview.html";
-        }).fail((res) => {
-            console.log("error");
+        }).fail(() => {
+            $("#loginError").removeClass("hidden");
         });
     });
 </script>
