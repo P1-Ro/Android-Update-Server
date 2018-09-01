@@ -20,7 +20,7 @@ public class Database {
     private Database() {
         String USERNAME =  System.getenv().get("DB_USERNAME");
         String PASSWORD = System.getenv().get("DB_PASSWORD");
-        String URL = System.getenv().get("DATABASE_URL");
+        String URL = System.getenv().get("DATABASE_URL").replace("postgres", "postgresql");
 
         try {
             connection = new JdbcConnectionSource("jdbc:" + URL, USERNAME, PASSWORD);
