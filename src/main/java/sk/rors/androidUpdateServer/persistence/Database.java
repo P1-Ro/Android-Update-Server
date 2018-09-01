@@ -7,6 +7,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.TableUtils;
 import org.reflections.Reflections;
+import sk.rors.androidUpdateServer.util.ErrorHandler;
+
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class Database {
             connection = new JdbcConnectionSource(URL, USERNAME, PASSWORD);
             createTables();
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
