@@ -1,5 +1,7 @@
 package sk.rors.androidUpdateServer.filter;
 
+import sk.rors.androidUpdateServer.util.ErrorHandler;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -19,25 +21,44 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        if (!hasAccess((HttpServletRequest) servletRequest)) {
-            ((HttpServletResponse) servletResponse).sendError(401);
-        }
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        filterChain.doFilter(servletRequest, servletResponse);
+        if (noAuthNeeded(req, resp) || hasAccess(req)) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            resp.sendError(401);
+        }
     }
 
     private boolean hasAccess(HttpServletRequest req) {
-        return noAuthNeeded(req) || authWithApiKey(req) || authWithBasicAuth(req);
+        return authWithApiKey(req) || authWithBasicAuth(req);
     }
 
-    private boolean noAuthNeeded(HttpServletRequest req) {
+    private boolean noAuthNeeded(HttpServletRequest req, HttpServletResponse resp) {
         String uri = req.getRequestURI();
-        List<String> allowed = Arrays.asList("/", "css", "js");
+
+        List<String> allowed = Arrays.asList("css", "js");
         for (String tmp : allowed) {
             if (uri.contains(tmp)) {
                 return true;
             }
         }
+
+        if (uri.equals("/")) {
+            Object loggedIn = req.getSession().getAttribute("loggedIn");
+            boolean alreadyLoggedIn = loggedIn != null && (boolean) loggedIn;
+            if (alreadyLoggedIn) {
+                try {
+                    resp.sendRedirect("/overview.html");
+                    return true;
+                } catch (IOException e) {
+                    ErrorHandler.handle(e);
+                }
+            }
+            return true;
+        }
+
         return false;
     }
 
@@ -46,9 +67,12 @@ public class LoginFilter implements Filter {
         if (auth != null) {
             String userNameAndPasswd = new String(Base64.getDecoder().decode(auth.split(" ")[1]));
             String credentials = System.getenv().get("ADMIN_CREDENTIALS");
-            req.getSession().setAttribute("loggedIn", true);
 
-            return userNameAndPasswd.equals(credentials);
+            boolean result = userNameAndPasswd.equals(credentials);
+            if (result){
+                req.getSession().setAttribute("loggedIn", true);
+            }
+            return result;
         }
 
         Object loggedIn = req.getSession().getAttribute("loggedIn");
