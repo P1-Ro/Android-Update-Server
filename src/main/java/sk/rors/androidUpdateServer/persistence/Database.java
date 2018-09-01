@@ -20,10 +20,12 @@ public class Database {
     private Database() {
         String USERNAME =  System.getenv().get("DB_USERNAME");
         String PASSWORD = System.getenv().get("DB_PASSWORD");
-        String URL = System.getenv().get("DATABASE_URL").replace("postgres", "postgresql");
+        String tmpUrl = System.getenv().get("DATABASE_URL");
 
+        String URL = "jdbc:postgresql://" + tmpUrl.substring(tmpUrl.indexOf("@") + 1) + "?max_allowed_packet=268435456";
+        System.out.println(URL);
         try {
-            connection = new JdbcConnectionSource("jdbc:" + URL, USERNAME, PASSWORD);
+            connection = new JdbcConnectionSource(URL, USERNAME, PASSWORD);
             createTables();
         } catch (Exception e) {
             ErrorHandler.handle(e);
