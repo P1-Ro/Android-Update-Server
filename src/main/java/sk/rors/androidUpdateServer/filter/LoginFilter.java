@@ -27,7 +27,6 @@ public class LoginFilter implements Filter {
         String url = req.getRequestURL().toString();
         if(url.startsWith("http://") && !isLocal(req)){
             resp.sendRedirect(url.replace("http://", "https://"));
-            return;
         }
 
         if (noAuthNeeded(req, resp) || hasAccess(req)) {
