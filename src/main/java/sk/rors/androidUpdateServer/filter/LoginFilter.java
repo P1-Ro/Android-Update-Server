@@ -38,7 +38,8 @@ public class LoginFilter implements Filter {
     private boolean noAuthNeeded(HttpServletRequest req, HttpServletResponse resp) {
         String uri = req.getRequestURI();
 
-        List<String> allowed = Arrays.asList("css", "js");
+        List<String> allowed = Arrays.asList("css", "js", "download");
+
         for (String tmp : allowed) {
             if (uri.contains(tmp)) {
                 return true;
