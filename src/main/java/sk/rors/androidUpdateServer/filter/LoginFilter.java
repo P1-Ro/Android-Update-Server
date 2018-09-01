@@ -24,11 +24,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        String url = req.getRequestURL().toString();
-        if(url.startsWith("http://") && !isLocal(req)){
-            url = url.replace("http://", "https://");
-            resp.sendRedirect(url);
-        }else if (noAuthNeeded(req, resp) || hasAccess(req)) {
+        if (noAuthNeeded(req, resp) || hasAccess(req)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             resp.sendError(401);
