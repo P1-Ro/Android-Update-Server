@@ -1,0 +1,52 @@
+<html>
+<head>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/local.css">
+</head>
+<body id="LoginForm">
+<div class="container">
+    <div class="login-form">
+        <div class="main-div">
+            <div class="panel">
+                <h2>Admin Login</h2>
+                <p>Please enter your username and password</p>
+            </div>
+            <form id="Login">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="inputEmail" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#Login").submit(event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let username = $("#inputEmail").val();
+        let passwd = $("#inputPassword").val();
+        let auth = btoa(username + ":" + passwd);
+
+        $.post({
+            url: "/overview.html",
+            headers: {
+                "Authorization": "Basic " + auth
+            }
+        }).done(() => {
+            window.location.href="/overview.html";
+        }).fail((res) => {
+            console.log("error");
+        });
+    });
+</script>
+</body>
+</html>
