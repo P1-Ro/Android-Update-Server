@@ -9,7 +9,7 @@
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
+    <option name="languageLevel" value="JSX" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

@@ -13,4 +13,9 @@
       <module name="Android-Update-Server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Android-Update-Server" options="-parameters" />
+    </option>
+  </component>
 </project>
