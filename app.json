@@ -16,7 +16,7 @@
       "generator": "secret"
     },
     "FIREBASE_CREDENTIALS": {
-      "description": "Content of json file downloaded from firebase",
+      "description": "Content of google-services.json downloaded from firebase",
       "value": ""
     }
   },
