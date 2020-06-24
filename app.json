@@ -1,0 +1,31 @@
+{
+  "name": "Android-Update-Server",
+  "description": "Update your android apps with ease without any store",
+  "repository": "https://github.com/P1-Ro/Android-Update-Server",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "success_url": "https://github.com/P1-Ro/Android-Update-Server/wiki/After-deployment",
+  "keywords": [
+    "android",
+    "update-server",
+    "firebase-cloud-messaging",
+    "spring-boot"
+  ],
+  "env": {
+    "apiKey": {
+      "description": "A secret key for calling api to use in apps",
+      "generator": "secret"
+    },
+    "FIREBASE_CREDENTIALS": {
+      "description": "A secret key for calling api to use in apps",
+      "value": ""
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ]
+}
