@@ -2,7 +2,7 @@
   "name": "Android-Update-Server",
   "description": "Update your android apps with ease without any store",
   "repository": "https://github.com/P1-Ro/Android-Update-Server",
-  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "logo": "https://image.flaticon.com/icons/svg/3039/3039437.svg",
   "success_url": "https://github.com/P1-Ro/Android-Update-Server/wiki/After-deployment",
   "keywords": [
     "android",
@@ -16,7 +16,7 @@
       "generator": "secret"
     },
     "FIREBASE_CREDENTIALS": {
-      "description": "A secret key for calling api to use in apps",
+      "description": "Content of json file downloaded from firebase",
       "value": ""
     }
   },
