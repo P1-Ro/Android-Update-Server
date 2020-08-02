@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import sk.p1ro.android_update_server.entity.Apk;
 import sk.p1ro.android_update_server.repository.ApkRepository;
 import sk.p1ro.android_update_server.util.ErrorHandler;
+import sk.p1ro.android_update_server.util.exception.CertificateException;
 import sk.p1ro.android_update_server.util.exception.VersionException;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.cert.CertificateException;
 import java.util.Optional;
 import java.util.UUID;
 

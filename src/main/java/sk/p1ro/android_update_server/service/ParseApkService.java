@@ -5,11 +5,11 @@ import net.dongliu.apk.parser.ApkFile;
 import net.dongliu.apk.parser.bean.*;
 import org.springframework.stereotype.Service;
 import sk.p1ro.android_update_server.entity.Apk;
+import sk.p1ro.android_update_server.util.exception.CertificateException;
 import sk.p1ro.android_update_server.util.exception.GenericException;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.cert.CertificateException;
 import java.util.List;
 
 @Service
@@ -38,8 +38,8 @@ public final class ParseApkService {
                 }
 
                 meta = signers.get(0).getCertificateMetas().get(0);
-            } catch (CertificateException e1) {
-                throw new CertificateException(e1);
+            } catch (java.security.cert.CertificateException e1) {
+                throw new CertificateException(e1.getMessage());
             }
 
         }
