@@ -11,30 +11,18 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("${spring.datasource.url:#{null}}")
+    @Value("${DATABASE_URL:#{null}}")
     private String dbUrl;
-
-    @Value("${spring.datasource.username:#{null}}")
-    private String dbUserName;
-
-    @Value("${spring.datasource.password:#{null}}")
-    private String dbPass;
-
-    @Value("${spring.datasource.driverClassName:#{null}}")
-    private String driverClassName;
 
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
 
-        if (driverClassName == null) {
+        if (dbUrl == null) {
             config.setDriverClassName("org.h2.Driver");
             config.setJdbcUrl("jdbc:h2:~/testdb");
         } else {
-            config.setDriverClassName(driverClassName);
             config.setJdbcUrl(dbUrl);
-            config.setPassword(dbPass);
-            config.setUsername(dbUserName);
         }
 
         return new HikariDataSource(config);
