@@ -29,7 +29,7 @@ public class DatabaseConfig {
 
         if (driverClassName == null) {
             config.setDriverClassName("org.h2.Driver");
-            config.setJdbcUrl("jdbc:h2:mem:testdb");
+            config.setJdbcUrl("jdbc:h2:~/testdb");
         } else {
             config.setDriverClassName(driverClassName);
             config.setJdbcUrl(dbUrl);
