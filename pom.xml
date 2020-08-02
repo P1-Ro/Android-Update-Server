@@ -104,6 +104,9 @@
                 <directory>client/public</directory>
                 <targetPath>public</targetPath>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
         </resources>
 
         <plugins>
