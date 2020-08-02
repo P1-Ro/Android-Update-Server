@@ -14,6 +14,12 @@ public class DatabaseConfig {
     @Value("${DATABASE_URL:#{null}}")
     private String dbUrl;
 
+    @Value("${DB_USERNAME:#{null}}")
+    private String dbUserName;
+
+    @Value("${DB_PASSWORD:#{null}}")
+    private String dbPass;
+
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
@@ -22,7 +28,10 @@ public class DatabaseConfig {
             config.setDriverClassName("org.h2.Driver");
             config.setJdbcUrl("jdbc:h2:~/testdb");
         } else {
+            config.setDriverClassName("org.postgresql.Driver");
             config.setJdbcUrl(dbUrl);
+            config.setPassword(dbPass);
+            config.setUsername(dbUserName);
         }
 
         return new HikariDataSource(config);
