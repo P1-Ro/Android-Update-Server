@@ -11,14 +11,8 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("${DATABASE_URL:#{null}}")
+    @Value("${spring.datasource.url:#{null}}")
     private String dbUrl;
-
-    @Value("${DB_USERNAME:#{null}}")
-    private String dbUserName;
-
-    @Value("${DB_PASSWORD:#{null}}")
-    private String dbPass;
 
     @Bean
     public DataSource dataSource() {
@@ -30,8 +24,6 @@ public class DatabaseConfig {
         } else {
             config.setDriverClassName("org.postgresql.Driver");
             config.setJdbcUrl(dbUrl);
-            config.setPassword(dbPass);
-            config.setUsername(dbUserName);
         }
 
         return new HikariDataSource(config);
